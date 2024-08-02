@@ -1,6 +1,7 @@
 // app/api/spotify/profile/route.ts
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { fetchClient, apiEndpoints } from "@/utils/fetchClient";
 
 export async function GET() {
   const cookieStore = cookies();
@@ -11,17 +12,12 @@ export async function GET() {
   }
 
   try {
-    const response = await fetch("https://api.spotify.com/v1/me", {
+    const userProfile = await fetchClient(apiEndpoints.spotifyApi, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch user profile");
-    }
-
-    const userProfile = await response.json();
     return NextResponse.json(userProfile);
   } catch (error) {
     console.error("Error fetching user profile:", error);
