@@ -2,6 +2,7 @@
 
 export const apiEndpoints = {
   spotifyApi: "https://api.spotify.com/v1",
+  nextPublicUrl: process.env.NEXT_PUBLIC_BASE_URL,
 };
 
 export async function fetchClient(url: string, options: RequestInit = {}) {

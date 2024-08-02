@@ -1,4 +1,5 @@
 // src/app/api/auth/callback/route.ts
+import { apiEndpoints } from "@/utils/fetchClient";
 import { NextResponse } from "next/server";
 import { URLSearchParams } from "url";
 
@@ -8,9 +9,7 @@ export async function GET(request: Request) {
   const state = url.searchParams.get("state");
 
   if (!code || !state) {
-    return NextResponse.redirect(
-      new URL("/error", process.env.NEXT_PUBLIC_BASE_URL)
-    );
+    return NextResponse.redirect(new URL("/error", apiEndpoints.nextPublicUrl));
   }
 
   const redirectUri = process.env.SPOTIFY_REDIRECT_URI;
@@ -18,9 +17,7 @@ export async function GET(request: Request) {
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
   if (!redirectUri || !clientId || !clientSecret) {
-    return NextResponse.redirect(
-      new URL("/error", process.env.NEXT_PUBLIC_BASE_URL)
-    );
+    return NextResponse.redirect(new URL("/error", apiEndpoints.nextPublicUrl));
   }
 
   try {
@@ -60,15 +57,13 @@ export async function GET(request: Request) {
     );
 
     return NextResponse.redirect(
-      new URL("/profile", process.env.NEXT_PUBLIC_BASE_URL),
+      new URL("/profile", apiEndpoints.nextPublicUrl),
       {
         headers: responseHeaders,
       }
     );
   } catch (error) {
     console.error("Error exchanging code for access token:", error);
-    return NextResponse.redirect(
-      new URL("/error", process.env.NEXT_PUBLIC_BASE_URL)
-    );
+    return NextResponse.redirect(new URL("/error", apiEndpoints.nextPublicUrl));
   }
 }
