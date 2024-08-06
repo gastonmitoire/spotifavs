@@ -53,21 +53,50 @@ async function fetchTopArtists(
   }
 }
 
+async function fetchTopTracks(
+  accessToken: string
+): Promise<{ items: Track[] } | null> {
+  try {
+    const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log("top: ", response);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch top tracks");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching top tracks:", error);
+    return null;
+  }
+}
 export default async function Home() {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("access_token")?.value;
 
   let userProfile: UserProfile | null = null;
   let topArtists: { items: ArtistType[] } | null = null;
+  let topTracks: { items: Track[] } | null = null;
   if (accessToken) {
     userProfile = await fetchUserProfile(accessToken);
     topArtists = await fetchTopArtists(accessToken);
+    topTracks = await fetchTopTracks(accessToken);
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-4xl font-bold">SPOTIFAVS</h1>
 
       <TopArtistsList topArtists={topArtists?.items || []} />
+
+      <ul>
+        {topTracks?.items.map((track, index) => (
+          <li key={index}>{track.name}</li>
+        ))}
+      </ul>
 
       <div className="flex items-center bg-slate-900">
         {!accessToken ? (
