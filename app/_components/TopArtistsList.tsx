@@ -1,3 +1,4 @@
+import { Avatar } from "@nextui-org/react";
 import React from "react";
 
 export type ArtistType = {
@@ -23,9 +24,14 @@ export const TopArtistsList = ({
   topArtists: ArtistType[] | null;
 }) => {
   return (
-    <ul>
+    <ul className="flex flex-col gap-3">
       {topArtists ? (
-        topArtists.map((item, index) => <li key={index}>{item.name}</li>)
+        topArtists.map((item, index) => (
+          <li key={index} className="flex items-center gap-1.5">
+            <Avatar src={item.images[0].url} />
+            {item.name}
+          </li>
+        ))
       ) : (
         <li>No hay artistas para mostrar</li>
       )}
