@@ -33,7 +33,7 @@ async function fetchUserProfile(
 
 async function fetchTopArtists(
   accessToken: string
-): Promise<ArtistType[] | null> {
+): Promise<{ items: ArtistType[] } | null> {
   try {
     const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
       headers: {
@@ -58,17 +58,16 @@ export default async function Home() {
   const accessToken = cookieStore.get("access_token")?.value;
 
   let userProfile: UserProfile | null = null;
-  let topArtists: ArtistType[] | null = null;
+  let topArtists: { items: ArtistType[] } | null = null;
   if (accessToken) {
     userProfile = await fetchUserProfile(accessToken);
     topArtists = await fetchTopArtists(accessToken);
   }
-  console.log(topArtists);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-4xl font-bold">SPOTIFAVS</h1>
 
-      {/* <TopArtistsList topArtists={topArtists?.items} /> */}
+      <TopArtistsList topArtists={topArtists?.items || []} />
 
       <div className="flex items-center bg-slate-900">
         {!accessToken ? (
