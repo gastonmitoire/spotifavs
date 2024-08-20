@@ -6,6 +6,7 @@ const nextConfig = {
       "scontent-atl3-1.xx.fbcdn.net",
       "scontent-sjc3-1.xx.fbcdn.net",
       "scontent-mia3-2.xx.fbcdn.net",
+      "scontent-iad3-1.xx.fbcdn.net",
     ], // Agrega el dominio que estás usando
   },
 };

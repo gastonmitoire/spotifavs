@@ -2,78 +2,13 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 import Image from "next/image";
-import LogoutButton from "./_components/LogoutButton";
-import { ArtistType, TopArtistsList } from "./_components/TopArtistsList";
+import LogoutButton from "./_shared/_components/LogoutButton";
+import { ArtistType, TopArtistsList } from "./_shared";
+import {
+  dashboardServices,
+  UserProfile,
+} from "./_dashboard/_services/dashboard.services";
 
-type UserProfile = {
-  display_name: string;
-  images: { url: string }[];
-};
-
-async function fetchUserProfile(
-  accessToken: string
-): Promise<UserProfile | null> {
-  try {
-    const response = await fetch("https://api.spotify.com/v1/me", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch user profile");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching user profile:", error);
-    return null;
-  }
-}
-
-async function fetchTopArtists(
-  accessToken: string
-): Promise<{ items: ArtistType[] } | null> {
-  try {
-    const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    console.log("top: ", response);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch top artists");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching top artists:", error);
-    return null;
-  }
-}
-
-async function fetchTopTracks(
-  accessToken: string
-): Promise<{ items: Track[] } | null> {
-  try {
-    const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    console.log("top: ", response);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch top tracks");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching top tracks:", error);
-    return null;
-  }
-}
 export default async function Home() {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("access_token")?.value;
@@ -82,9 +17,9 @@ export default async function Home() {
   let topArtists: { items: ArtistType[] } | null = null;
   let topTracks: { items: Track[] } | null = null;
   if (accessToken) {
-    userProfile = await fetchUserProfile(accessToken);
-    topArtists = await fetchTopArtists(accessToken);
-    topTracks = await fetchTopTracks(accessToken);
+    userProfile = await dashboardServices.fetchUserProfile(accessToken);
+    topArtists = await dashboardServices.fetchTopArtists(accessToken);
+    topTracks = await dashboardServices.fetchTopTracks(accessToken);
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
