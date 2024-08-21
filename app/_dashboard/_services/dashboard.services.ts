@@ -1,4 +1,5 @@
 import { ArtistType } from "@/app/_shared";
+import { apiEndpoints, fetchClient } from "@/utils/fetchClient";
 
 export const dashboardServices = {
   fetchUserProfile,
@@ -6,11 +7,9 @@ export const dashboardServices = {
   fetchTopTracks,
 };
 
-async function fetchUserProfile(
-  accessToken: string
-): Promise<UserProfile | null> {
+async function fetchUserProfile(): Promise<UserProfile | null> {
   try {
-    const response = await fetch("http://localhost:3000/api/profile");
+    const response = await fetch("http://localhost:3000/api/spotify/profile");
     console.log("Res ", response);
 
     if (!response.ok) {

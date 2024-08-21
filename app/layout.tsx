@@ -24,11 +24,6 @@ export default async function RootLayout({
   const cookieStore = cookies();
   const accessToken = cookieStore.get("access_token")?.value;
 
-  let userProfile: UserProfile | null = null;
-  if (accessToken) {
-    userProfile = await dashboardServices.fetchUserProfile(accessToken);
-  }
-
   return (
     <html lang="en" className="dark text-text bg-background">
       <body className={inter.className}>
@@ -36,7 +31,7 @@ export default async function RootLayout({
           <NextUIProvider>
             {accessToken ? (
               <>
-                <Topbar />
+                <Topbar token={accessToken} />
                 {children}
               </>
             ) : (

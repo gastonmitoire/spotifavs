@@ -1,8 +1,12 @@
+// src/redux/store.ts
 import { configureStore } from "@reduxjs/toolkit";
+import usersSlice from "./feature/users/usersSlice";
 
 export const makeStore = () => {
   return configureStore({
-    reducer: {},
+    reducer: {
+      user: usersSlice, // Agrega el reducer del usuario aquí
+    },
   });
 };
 

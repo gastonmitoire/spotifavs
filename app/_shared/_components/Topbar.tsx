@@ -12,17 +12,20 @@ import {
   Button,
   Avatar,
 } from "@nextui-org/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/lib/feature/users/usersSlice";
+import { RootState } from "@/lib/store";
+import { getUserProfileAction } from "@/app/actions";
+import { dashboardServices } from "@/app/_dashboard/_services/dashboard.services";
 
 interface TopbarProps {
-  userProfile: UserProfile;
+  token: string;
 }
 
-export function Topbar({ userProfile }: TopbarProps) {
+export function Topbar({ token }: TopbarProps) {
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.user);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
   const menuItems = [
     "Profile",
     "Dashboard",
@@ -37,10 +40,20 @@ export function Topbar({ userProfile }: TopbarProps) {
   ];
 
   useEffect(() => {
-    if (userProfile) {
-      dispatch(setUser(userProfile));
+    if (token) {
+      const fetchAndLogUserProfile = async () => {
+        try {
+          const res = await dashboardServices.fetchUserProfile();
+
+          dispatch(setUser(res));
+        } catch (error) {
+          console.error("Failed to fetch user profile:", error);
+        }
+      };
+
+      fetchAndLogUserProfile();
     }
-  }, [userProfile, dispatch]);
+  }, [token, dispatch]);
 
   return (
     <Navbar
@@ -58,10 +71,7 @@ export function Topbar({ userProfile }: TopbarProps) {
       <NavbarContent justify="center">
         <NavbarBrand className="translate-y-7">
           <h5></h5>
-          <Avatar
-            size="lg"
-            src="https://cdn2.f-cdn.com/files/download/38545966/4bce6b.jpg"
-          />
+          <Avatar size="lg" src={user?.images?.[0]?.url} />
         </NavbarBrand>
       </NavbarContent>
 

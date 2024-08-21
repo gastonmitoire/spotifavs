@@ -1,23 +1,11 @@
 // utils/fetchClient.ts
 
-import { cookies } from "next/headers"; // Importa el paquete para manejar cookies en el servidor
-
 export const apiEndpoints = {
   spotifyApi: "https://api.spotify.com/v1",
   nextPublicUrl: process.env.NEXT_PUBLIC_BASE_URL,
 };
 
-const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-async function getAccessToken() {
-  const cookieStore = cookies();
-  const token = cookieStore.get("accessToken"); // Reemplaza con el nombre de tu cookie
-
-  // Si el token no está disponible, devolver null
-  if (!token) return null;
-
-  return token;
-}
+const API_URL = process.env.NEXT_PUBLIC_BASE_URL + "/api";
 
 async function refreshToken() {
   // Llama a tu endpoint de refresco de tokens
@@ -33,17 +21,22 @@ async function refreshToken() {
   }
 
   const data = await response.json();
-  // Aquí deberías guardar el nuevo token en las cookies
   return data.accessToken;
 }
 
-export async function fetchClient(url: string, options: RequestInit = {}) {
+export async function fetchClient(
+  url: string,
+  accessToken: string | null,
+  options: RequestInit = {}
+) {
   try {
-    let accessToken = await getAccessToken();
+    let token = accessToken;
+
+    console.log("client-fetch: ", token);
 
     // Si el token no está disponible, intenta refrescarlo
-    if (!accessToken) {
-      accessToken = await refreshToken();
+    if (!token) {
+      token = await refreshToken();
     }
 
     // Realiza la solicitud con el token
@@ -51,19 +44,19 @@ export async function fetchClient(url: string, options: RequestInit = {}) {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        Authorization: accessToken ? `Bearer ${accessToken}` : "",
+        Authorization: token ? `Bearer ${token}` : "",
         ...options.headers,
       },
     });
 
     if (response.status === 401) {
       // Si el token ha expirado, intenta refrescar el token y volver a hacer la solicitud
-      accessToken = await refreshToken();
+      token = await refreshToken();
       const retryResponse = await fetch(url, {
         ...options,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${token}`,
           ...options.headers,
         },
       });
