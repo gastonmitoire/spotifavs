@@ -18,13 +18,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className + " dark text-foreground bg-background"}>
+    <html lang="en" className="dark text-foreground bg-background">
+      <body className={inter.className}>
         <StoreProvider>
-          <NextUIProvider>
-            <Topbar />
-            {children}
-          </NextUIProvider>
+          <NextUIProvider>{children}</NextUIProvider>
         </StoreProvider>
       </body>
     </html>

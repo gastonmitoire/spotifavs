@@ -8,6 +8,7 @@ import {
   dashboardServices,
   UserProfile,
 } from "./_dashboard/_services/dashboard.services";
+import { Dashboard } from "./_dashboard/_components/Dashboard";
 
 export default async function Home() {
   const cookieStore = cookies();
@@ -22,49 +23,8 @@ export default async function Home() {
     topTracks = await dashboardServices.fetchTopTracks(accessToken);
   }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold">SPOTIFAVS</h1>
-
-      <TopArtistsList topArtists={topArtists?.items || []} />
-
-      <ul>
-        {topTracks?.items.map((track, index) => (
-          <li key={index}>{track.name}</li>
-        ))}
-      </ul>
-
-      <div className="flex items-center bg-slate-900">
-        {!accessToken ? (
-          <a href="/api/auth/spotifyAuth" className="mt-10 text-xl">
-            Iniciar sesión con Spotify
-          </a>
-        ) : (
-          <>
-            <div className="mt-10 text-xl flex items-center">
-              {userProfile?.images[0]?.url ? (
-                <Image
-                  src={userProfile.images[0].url}
-                  alt="Avatar"
-                  width={50}
-                  height={50}
-                  className="rounded-full"
-                />
-              ) : (
-                <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
-                  <span className="text-gray-700">No Avatar</span>
-                </div>
-              )}
-              <Link href="/profile" className="ml-4">
-                <span className="font-bold">
-                  {userProfile?.display_name || "User"}
-                </span>
-              </Link>
-            </div>
-
-            <LogoutButton />
-          </>
-        )}
-      </div>
+    <main className="h-screen">
+      <Dashboard />
     </main>
   );
 }

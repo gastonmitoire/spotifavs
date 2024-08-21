@@ -29,7 +29,6 @@ const config: Config = {
           layout: {
             borderRadius: "12px", // Radio de borde para elementos
             spacing: "16px", // Espaciado general
-            fontFamily: "Inter, sans-serif", // Fuente general
           },
         },
         dark: {
@@ -43,7 +42,6 @@ const config: Config = {
           layout: {
             borderRadius: "12px", // Radio de borde para elementos
             spacing: "16px", // Espaciado general
-            fontFamily: "Inter, sans-serif", // Fuente general
           },
         },
         // ... custom themes
