@@ -1,10 +1,5 @@
 import { ArtistType } from "@/app/_shared";
 
-export type UserProfile = {
-  display_name: string;
-  images: { url: string }[];
-};
-
 export const dashboardServices = {
   fetchUserProfile,
   fetchTopArtists,

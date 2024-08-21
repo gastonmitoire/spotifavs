@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -12,8 +12,15 @@ import {
   Button,
   Avatar,
 } from "@nextui-org/react";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/lib/feature/users/usersSlice";
 
-export function Topbar() {
+interface TopbarProps {
+  userProfile: UserProfile;
+}
+
+export function Topbar({ userProfile }: TopbarProps) {
+  const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const menuItems = [
@@ -28,6 +35,12 @@ export function Topbar() {
     "Help & Feedback",
     "Log Out",
   ];
+
+  useEffect(() => {
+    if (userProfile) {
+      dispatch(setUser(userProfile));
+    }
+  }, [userProfile, dispatch]);
 
   return (
     <Navbar

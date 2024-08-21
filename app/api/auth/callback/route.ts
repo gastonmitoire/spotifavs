@@ -56,12 +56,9 @@ export async function GET(request: Request) {
       `refresh_token=${refresh_token}; Path=/; Secure; HttpOnly; SameSite=Strict`
     );
 
-    return NextResponse.redirect(
-      new URL("/profile", apiEndpoints.nextPublicUrl),
-      {
-        headers: responseHeaders,
-      }
-    );
+    return NextResponse.redirect(new URL("/", apiEndpoints.nextPublicUrl), {
+      headers: responseHeaders,
+    });
   } catch (error) {
     console.error("Error exchanging code for access token:", error);
     return NextResponse.redirect(new URL("/error", apiEndpoints.nextPublicUrl));
