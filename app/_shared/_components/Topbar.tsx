@@ -11,16 +11,19 @@ import {
   Link,
   Button,
   Avatar,
+  Spinner,
 } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "@/lib/feature/users/usersSlice";
 import { RootState } from "@/lib/store";
-import { usersServices } from "@/app/_users/_services/users.services";
+import { fetchUserProfile } from "@/lib/feature/users/usersSlice";
 
 export function Topbar() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
+  const status = useSelector((state: RootState) => state.user.status);
+  const error = useSelector((state: RootState) => state.user.error);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   const menuItems = [
     "Profile",
     "Dashboard",
@@ -35,17 +38,8 @@ export function Topbar() {
   ];
 
   useEffect(() => {
-    const fetchAndLogUserProfile = async () => {
-      try {
-        const res = await usersServices.fetchUserProfile();
-
-        dispatch(setUser(res));
-      } catch (error) {
-        console.error("Failed to fetch user profile:", error);
-      }
-    };
-
-    fetchAndLogUserProfile();
+    // Dispatch the fetchUserProfile thunk
+    dispatch(fetchUserProfile() as any); // Asegúrate de que el thunk se despache correctamente
   }, [dispatch]);
 
   return (
@@ -63,8 +57,7 @@ export function Topbar() {
 
       <NavbarContent justify="center">
         <NavbarBrand className="translate-y-7">
-          <h5></h5>
-          <Avatar size="lg" src={user?.images?.[0]?.url} />
+          <Avatar showFallback size="lg" src={user?.images?.[0]?.url} />
         </NavbarBrand>
       </NavbarContent>
 
