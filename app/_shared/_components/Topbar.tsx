@@ -15,15 +15,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/lib/feature/users/usersSlice";
 import { RootState } from "@/lib/store";
-import { getUserProfileAction } from "@/app/actions";
-import { dashboardServices } from "@/app/_dashboard/_services/dashboard.services";
 import { usersServices } from "@/app/_users/_services/users.services";
 
-interface TopbarProps {
-  token: string;
-}
-
-export function Topbar({ token }: TopbarProps) {
+export function Topbar() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -41,20 +35,18 @@ export function Topbar({ token }: TopbarProps) {
   ];
 
   useEffect(() => {
-    if (token) {
-      const fetchAndLogUserProfile = async () => {
-        try {
-          const res = await usersServices.fetchUserProfile();
+    const fetchAndLogUserProfile = async () => {
+      try {
+        const res = await usersServices.fetchUserProfile();
 
-          dispatch(setUser(res));
-        } catch (error) {
-          console.error("Failed to fetch user profile:", error);
-        }
-      };
+        dispatch(setUser(res));
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+      }
+    };
 
-      fetchAndLogUserProfile();
-    }
-  }, [token, dispatch]);
+    fetchAndLogUserProfile();
+  }, [dispatch]);
 
   return (
     <Navbar

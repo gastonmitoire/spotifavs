@@ -31,7 +31,7 @@ export default async function RootLayout({
           <NextUIProvider>
             {accessToken ? (
               <>
-                <Topbar token={accessToken} />
+                <Topbar />
                 {children}
               </>
             ) : (
