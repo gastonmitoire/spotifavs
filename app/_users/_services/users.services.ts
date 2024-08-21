@@ -1,5 +1,4 @@
-import { ArtistType } from "@/app/_shared";
-import { apiEndpoints, fetchClient } from "@/utils/fetchClient";
+import { apiEndpoints } from "@/utils/fetchClient";
 
 export const usersServices = {
   fetchUserProfile,
