@@ -62,12 +62,9 @@ export function Topbar() {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
-        </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="warning" href="#" variant="flat">
-            Sign Up
+          <Button as={Link} color="warning" href="/api/logout" variant="flat">
+            Cerrar sesión
           </Button>
         </NavbarItem>
       </NavbarContent>

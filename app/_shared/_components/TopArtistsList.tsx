@@ -21,20 +21,16 @@ export type ArtistType = {
 export const TopArtistsList = ({
   topArtists,
 }: {
-  topArtists: ArtistType[] | null;
+  topArtists: ArtistType[];
 }) => {
   return (
     <ul className="flex flex-col gap-3">
-      {topArtists ? (
-        topArtists.map((item, index) => (
-          <li key={index} className="flex items-center gap-1.5">
-            <Avatar src={item.images[0].url} />
-            {item.name}
-          </li>
-        ))
-      ) : (
-        <li>No hay artistas para mostrar</li>
-      )}
+      {topArtists.map((item, index) => (
+        <li key={index} className="flex items-center gap-1.5">
+          <Avatar src={item.images[0].url} />
+          {item.name}
+        </li>
+      ))}
     </ul>
   );
 };
