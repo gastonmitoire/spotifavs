@@ -17,6 +17,7 @@ import { setUser } from "@/lib/feature/users/usersSlice";
 import { RootState } from "@/lib/store";
 import { getUserProfileAction } from "@/app/actions";
 import { dashboardServices } from "@/app/_dashboard/_services/dashboard.services";
+import { usersServices } from "@/app/_users/_services/users.services";
 
 interface TopbarProps {
   token: string;
@@ -43,7 +44,7 @@ export function Topbar({ token }: TopbarProps) {
     if (token) {
       const fetchAndLogUserProfile = async () => {
         try {
-          const res = await dashboardServices.fetchUserProfile();
+          const res = await usersServices.fetchUserProfile();
 
           dispatch(setUser(res));
         } catch (error) {

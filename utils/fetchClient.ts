@@ -3,13 +3,12 @@
 export const apiEndpoints = {
   spotifyApi: "https://api.spotify.com/v1",
   nextPublicUrl: process.env.NEXT_PUBLIC_BASE_URL,
+  nextApi: process.env.NEXT_PUBLIC_BASE_URL + "/api",
 };
-
-const API_URL = process.env.NEXT_PUBLIC_BASE_URL + "/api";
 
 async function refreshToken() {
   // Llama a tu endpoint de refresco de tokens
-  const response = await fetch(`${API_URL}/refresh-token`, {
+  const response = await fetch(`${apiEndpoints.nextApi}/refresh-token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

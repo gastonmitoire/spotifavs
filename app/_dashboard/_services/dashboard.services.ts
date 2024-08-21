@@ -2,26 +2,9 @@ import { ArtistType } from "@/app/_shared";
 import { apiEndpoints, fetchClient } from "@/utils/fetchClient";
 
 export const dashboardServices = {
-  fetchUserProfile,
   fetchTopArtists,
   fetchTopTracks,
 };
-
-async function fetchUserProfile(): Promise<UserProfile | null> {
-  try {
-    const response = await fetch("http://localhost:3000/api/spotify/profile");
-    console.log("Res ", response);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch user profile");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching user profile:", error);
-    return null;
-  }
-}
 
 async function fetchTopArtists(
   accessToken: string
