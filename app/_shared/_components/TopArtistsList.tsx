@@ -24,11 +24,11 @@ export const TopArtistsList = ({
   topArtists: ArtistType[];
 }) => {
   return (
-    <ul className="flex flex-col gap-3">
+    <ul className="grid grid-cols-5 gap-5">
       {topArtists.map((item, index) => (
-        <li key={index} className="flex items-center gap-1.5">
-          <Avatar src={item.images[0].url} />
-          {item.name}
+        <li key={index} className="flex items-center gap-3">
+          <Avatar className="h-28 w-28" src={item.images[0].url} />
+          <p className="text-lg font-bold">{item.name}</p>
         </li>
       ))}
     </ul>

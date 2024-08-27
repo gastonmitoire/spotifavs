@@ -8,7 +8,21 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
-  theme: {},
+  theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: "1rem",
+      },
+      screens: {
+        sm: "calc(100% - 1rem)", // Deja un borde de 0.5rem en cada lado
+        md: "calc(100% - 2rem)", // Deja un borde de 1rem en cada lado
+        lg: "calc(100% - 2rem)",
+        xl: "calc(100% - 2rem)",
+        "2xl": "calc(100% - 2rem)",
+      },
+    },
+  },
   darkMode: "class",
   plugins: [
     nextui({
