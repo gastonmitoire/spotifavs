@@ -1,3 +1,4 @@
+// /auth/token/route.ts
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
@@ -7,7 +8,6 @@ const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
 const url = "https://accounts.spotify.com/api/token";
 
 export async function POST(request: Request) {
-  // Verificar que las variables de entorno estén definidas
   if (!client_id || !client_secret || !redirect_uri) {
     return NextResponse.json(
       { error: "Missing client_id, client_secret, or redirect_uri" },
@@ -16,6 +16,7 @@ export async function POST(request: Request) {
   }
 
   const cookieStore = cookies();
+  const storedState = cookieStore.get("spotify_auth_state")?.value;
   const existingToken = cookieStore.get("access_token")?.value;
 
   if (existingToken) {
@@ -23,11 +24,11 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { code } = await request.json();
+    const { code, state } = await request.json();
 
-    if (!code) {
+    if (!code || state !== storedState) {
       return NextResponse.json(
-        { error: "Authorization code is required" },
+        { error: "Authorization code is required or invalid state" },
         { status: 400 }
       );
     }
@@ -40,7 +41,7 @@ export async function POST(request: Request) {
       body: new URLSearchParams({
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: redirect_uri, // Aquí ya sabemos que redirect_uri es string
+        redirect_uri: redirect_uri,
         client_id: client_id,
         client_secret: client_secret,
       }).toString(),
@@ -54,7 +55,6 @@ export async function POST(request: Request) {
     }
 
     const data = await response.json();
-    console.log("Data: ", data);
 
     const responseHeaders = new Headers();
     responseHeaders.append(

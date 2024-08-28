@@ -20,7 +20,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="h-screen container">
+    <main className="container">
       <Dashboard artists={topArtists?.items} />
     </main>
   );

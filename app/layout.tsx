@@ -6,6 +6,7 @@ import { Navbar, NextUIProvider } from "@nextui-org/react";
 import { Topbar } from "./_shared/_components/Topbar";
 import { cookies } from "next/headers";
 import { dashboardServices } from "./_dashboard/_services/dashboard.services";
+import { Sidebar } from "./_shared/_components/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,10 +31,13 @@ export default async function RootLayout({
         <StoreProvider>
           <NextUIProvider>
             {accessToken ? (
-              <>
-                <Topbar />
-                {children}
-              </>
+              <div className="flex">
+                <Sidebar />
+                <div className="w-full">
+                  <Topbar />
+                  {children}
+                </div>
+              </div>
             ) : (
               welcome
             )}
