@@ -1,52 +1,86 @@
 type Album = {
   href: string;
-  // Añade otras propiedades del álbum según sea necesario
+  id: string; // Añadido para identificar el álbum
+  name: string; // Nombre del álbum
+  release_date: string; // Fecha de lanzamiento
+  release_date_precision: string; // Precisión de la fecha de lanzamiento
+  total_tracks: number; // Número total de pistas en el álbum
+  type: string; // Tipo de objeto, siempre será "album"
+  uri: string; // URI de Spotify para el álbum
+  images: {
+    url: string;
+    height: number;
+    width: number;
+  }[];
+};
+
+type Artist = {
+  external_urls: {
+    spotify: string; // URL de Spotify para el artista
+  };
+  followers: {
+    href: string | null; // Enlace al endpoint de Web API para los seguidores, puede ser null
+    total: number; // Número total de seguidores
+  };
+  genres: string[]; // Géneros musicales del artista
+  href: string; // URL al perfil del artista
+  id: string; // ID del artista
+  images: {
+    url: string;
+    height: number;
+    width: number;
+  }[];
+  name: string; // Nombre del artista
+  popularity: number; // Popularidad del artista (0-100)
+  type: "artist"; // Tipo de objeto, siempre será "artist"
+  uri: string; // URI de Spotify para el artista
 };
 
 type SimplifiedArtistObject = {
   href: string;
-  // Añade otras propiedades del artista según sea necesario
+  id: string; // ID del artista
+  name: string; // Nombre del artista
+  type: "artist"; // Tipo de objeto, siempre será "artist"
+  uri: string; // URI de Spotify para el artista
 };
 
 type ExternalIds = {
-  [key: string]: string;
-  // Añade otros identificadores externos según sea necesario
+  [key: string]: string; // Identificadores externos en formato clave-valor
 };
 
 type ExternalUrls = {
-  [key: string]: string;
-  // Añade otras URLs externas según sea necesario
+  spotify: string; // URL de Spotify para el objeto
 };
 
 type LinkedFrom = {
-  // Añade las propiedades relevantes para el objeto linked_from según sea necesario
+  href: string; // Enlace al objeto del cual se ha enlazado
 };
 
 type Restrictions = {
-  // Añade las propiedades relevantes para las restricciones según sea necesario
+  reason: string; // Razón por la cual la pista está restringida
 };
 
 interface Track {
   album: Album;
-  artists: SimplifiedArtistObject[];
-  available_markets: string[];
-  disc_number: number;
-  duration_ms: number;
-  explicit: boolean;
-  external_ids: ExternalIds;
-  external_urls: ExternalUrls;
-  href: string;
-  id: string;
-  is_playable?: boolean;
-  linked_from?: LinkedFrom;
-  restrictions?: Restrictions;
-  name: string;
-  popularity: number;
-  preview_url?: string | null;
-  track_number: number;
-  type: "track";
-  uri: string;
-  is_local: boolean;
+  artists: Artist[];
+  available_markets: string[]; // Mercados en los que la pista está disponible
+  disc_number: number; // Número del disco en el álbum
+  duration_ms: number; // Duración de la pista en milisegundos
+  explicit: boolean; // Indica si la pista contiene contenido explícito
+  external_ids: ExternalIds; // Identificadores externos para la pista
+  external_urls: ExternalUrls; // URLs externas para la pista
+  href: string; // URL al objeto de la pista
+  id: string; // ID de la pista
+  is_playable?: boolean; // Indica si la pista es reproducible
+  linked_from?: LinkedFrom; // Información sobre el objeto del cual se ha enlazado
+  restrictions?: Restrictions; // Restricciones sobre la pista
+  name: string; // Nombre de la pista
+  popularity: number; // Popularidad de la pista (0-100)
+  preview_url?: string | null; // URL para una vista previa de la pista
+  track_number: number; // Número de pista en el álbum
+  type: "track"; // Tipo de objeto, siempre será "track"
+  uri: string; // URI de Spotify para la pista
+  is_local: boolean; // Indica si la pista es local (no disponible en Spotify)
 }
 
 // Define la interfaz para la configuración de contenido explícito

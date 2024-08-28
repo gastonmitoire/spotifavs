@@ -1,4 +1,3 @@
-import { ArtistType } from "@/app/_shared";
 import { apiEndpoints, fetchClient } from "@/utils/fetchClient";
 
 export const dashboardServices = {
@@ -8,7 +7,7 @@ export const dashboardServices = {
 
 async function fetchTopArtists(
   accessToken: string
-): Promise<{ items: ArtistType[] } | null> {
+): Promise<{ items: Artist[] } | null> {
   try {
     const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
       headers: {
