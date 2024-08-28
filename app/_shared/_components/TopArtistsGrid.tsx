@@ -18,7 +18,7 @@ export type ArtistType = {
   url: string;
 };
 
-export const TopArtistsList = ({
+export const TopArtistsGrid = ({
   topArtists,
 }: {
   topArtists: ArtistType[];

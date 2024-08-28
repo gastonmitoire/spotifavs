@@ -21,7 +21,7 @@ export default async function Home() {
 
   return (
     <main className="container">
-      <Dashboard artists={topArtists?.items} />
+      <Dashboard topArtists={topArtists?.items} />
     </main>
   );
 }
